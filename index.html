@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Picture Zoom</title>
-    <link rel="stylesheet" href="./style.css">
     <style>
         body {
             display: flex;
@@ -15,11 +14,7 @@
             box-sizing: content-box;
         }
 
-        .zoomset {
-            width: 900px;
-            margin-bottom: 150px;
-            display: flex;
-        }
+        
         
         .container {
             position: relative;
@@ -38,7 +33,7 @@
             border-radius: 50%;
             border: solid 10px #3fa3f5;
             overflow: hidden;
-            box-shadow: 0 0 20px rgba(82, 79, 79, 0.932);
+            box-shadow: 0 0 20px rgba(165, 222, 248, 0.932);
             z-index: 99;
         }
 
@@ -49,6 +44,43 @@
         }
         .hidden {
             visibility: hidden;
+        }
+
+        .settings {
+            width: 900px;
+            margin: 150px 0 0;
+            font-size: 20px;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            flex-direction: column
+        }
+
+        .settings  button {
+            height: 40px;
+            font-size: 20px;
+            line-height: 20px;
+            outline: none;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            padding: 10px;
+            background: #3fa3f5;
+            overflow: auto;
+        }
+        
+        .picture-setting{
+            width: 100%;
+        }
+        .zoom-setting {
+            width: 100%;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            
+        }
+        .zoom-setting .change-zoom-btn {
+            margin-left: 20px;
         }
 
         img {
@@ -63,71 +95,99 @@
     </style>
 </head>
 <body>
-    <div class="zoomset">
-        <label for=""></label>
-        <input  type="text">
+    <div class="state">
+        <p>将鼠标移至图片上观察放大效果</p>
     </div>
     <div class="container">
         <!-- 原图 -->
-        <img src="./img.jpg" width="100%" alt="">
+        <img id="origin-picture" src="./images/img2.jpg" width="100%" alt="">
         
         <!-- 放大 -->
-        <div class="zoomglass">
-            <img src="./img.jpg" alt="" >
+        <div class="zoomglass hidden">
+            <img src="./images/img2.jpg" alt="" >
         </div>
     </div>
-    
+
+    <div class="settings">
+        <div class="picture-setting">
+            <button class="change-picture-btn">更换图片</button>
+        </div>
+        <div class="zoom-setting">
+            <p>透镜缩放</p>
+            <button class="change-zoom-btn enlarge">+</button>
+            <button class="change-zoom-btn shrink">-</button>
+        </div>
+    </div>
+    <script src="./js/zoom.js"></script>
     <script>
-        let container = document.querySelector('.container');
-        let zoom = document.querySelector('.zoomglass');
-        let bigImg = document.querySelector('.zoomglass img');
-    
-        // 放大镜移动
-        container.addEventListener('mousemove', e => {
-            let mouseX = e.clientX ? e.clientX : e.screenX;
-            let mouseY = e.clientY ? e.clientY : e.screenY;
-            let imageX = container.offsetLeft;
-            let imageY = container.offsetTop;
-            let zoomWidth = zoom.offsetWidth;
-            let zoomHeight = zoom.offsetHeight;
-            let border = zoom.style.borderWidth;
+        let changePicBtn = document.querySelector('.change-picture-btn');
+        let changeZoomBtns = document.querySelectorAll('.change-zoom-btn')
+        let originPic = document.querySelector('#origin-picture');
+        let zoomWidth = zoom.offsetWidth;
+        let zoomHeight = zoom.offsetHeight;
+
+        let IMAGES = [
+            './images/img.jpg',
+            './images/img2.jpg',
+            './images/img3.jpg',
+            './images/img4.jpg'
+        ]
+        let lastIndex = undefined;
+        let count = 0;
+
+        function randomNum(n) {
+            return parseInt(Math.random() * n);
+        }
+        // 避免重复取图
+        function getRandomPic() {
+            let random = randomNum(IMAGES.length)
+            if (random === lastIndex) {
+                getRandomPic(); 
+                // 如果和上一张图相同，不要执行后面的函数
+                return 
+                lastIndex = undefined;
+            } 
+
+            lastIndex = random;
+            // console.log(random, lastIndex);
             
-            // 上下移动边界
-            let zoomMaxleft = container.offsetWidth - zoomWidth / 2;
-            let zoomMaxTop = container.offsetHeight - zoomHeight / 2;
+            bigImg.src = IMAGES[random]; 
+            originPic.src = IMAGES[random]; 
+        }
+        
+        changePicBtn.addEventListener('click',getRandomPic
+        )
 
-            console.log(border)
-            // 放大镜偏移距离
-            let zoomLeft = mouseX - imageX - zoomWidth / 2 ;
-            let zoomTop = mouseY - imageY - zoomHeight / 2 ;
-            
-            if (zoomLeft <= - zoomWidth / 2) zoomLeft = - zoomWidth / 2;
-            if (zoomTop <= - zoomHeight / 2) zoomTop = - zoomHeight / 2;
-            if (zoomLeft >= zoomMaxleft) zoomLeft = zoomMaxleft;
-            if (zoomTop >= zoomMaxTop) zoomTop = zoomMaxTop;
-            zoom.style.left = zoomLeft + 'px' ;
-            zoom.style.top = zoomTop + 'px';
+        Array.prototype.forEach.call(changeZoomBtns, function (i) {
+                i.addEventListener('click',function() {
+                    console.log(this.classList[1])
+                    if (this.classList[1] == 'enlarge') {
+                        zoomWidth += 10;
+                        zoomHeight += 10;
+                    } else {
+                        zoomWidth -= 10;
+                        zoomHeight -= 10;
+                    }
+                    if (zoomWidth <= 100) {
+                        zoomWidth = 100;
+                        zoomHeight = zoomWidth;
+                    }
+                    if (zoomWidth >= 300) {
+                        zoomWidth = 300;
+                        zoomHeight = zoomWidth;
+                    }
 
-            // 放大镜图片位置 根据比例  放大镜中心点偏移位置/图片宽度 相同
+                    zoom.style.width = zoomWidth + 'px';
+                    zoom.style.height = zoomHeight + 'px';
 
-            // 此处放大镜偏移位置 需要用clientWidth 不包含它的边框宽度 这样在边界处放大不会有图片的偏移
+                })
+            }
+        )
 
-            let bigImgLeft = (zoomLeft + zoomWidth / 2) / container.offsetWidth * bigImg.offsetWidth - zoom.clientWidth / 2;
-            let bigImgTop = (zoomTop + zoomHeight / 2) / container.offsetHeight * bigImg.offsetHeight - zoom.clientHeight / 2;
-            bigImg.style.left = - bigImgLeft + 'px';
-            bigImg.style.top = - bigImgTop + 'px';
-            
-        })
-
-        container.addEventListener('mouseover', _ => {
-            zoom.classList.remove('hidden');
-        })
-
-        container.addEventListener('mouseout', _ => {
-            zoom.classList.add('hidden')
-        })
-    
     </script>
+    
+    
+    
 </body>
 
 </html>
