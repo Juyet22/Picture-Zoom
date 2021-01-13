@@ -1,30 +1,17 @@
-<<<<<<< HEAD
 let container = document.querySelector('.container ');
 let originPic = document.querySelector('#origin-picture');
-=======
-let container = document.querySelector('.container');
->>>>>>> 87362ea3a4277311068483165a2c7b4b47339d5c
 let zoom = document.querySelector('.zoomglass');
 let bigImg = document.querySelector('.zoomglass img');
 
 // 放大镜移动
 container.addEventListener('mousemove', e => {
-<<<<<<< HEAD
     // 为了应对图片高度过大情况 用pageX，Y 获取带滚动条时距离页面边缘距离
     let mouseX = e.pageX;
     let mouseY = e.pageY;
-=======
-    let mouseX = e.clientX ? e.clientX : e.screenX;
-    let mouseY = e.clientY ? e.clientY : e.screenY;
->>>>>>> 87362ea3a4277311068483165a2c7b4b47339d5c
     let imageX = container.offsetLeft;
     let imageY = container.offsetTop;
     let zoomWidth = zoom.offsetWidth;
     let zoomHeight = zoom.offsetHeight;
-<<<<<<< HEAD
-=======
-    let border = zoom.style.borderWidth;
->>>>>>> 87362ea3a4277311068483165a2c7b4b47339d5c
     
     // 上下移动边界
     let zoomMaxleft = container.offsetWidth - zoomWidth / 2;

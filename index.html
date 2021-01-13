@@ -58,20 +58,13 @@
         }
 
         .settings {
-<<<<<<< HEAD
             width: 1000px;
             margin: 140px 0 0;
-=======
-            width: 900px;
-            margin: 150px 0 0;
->>>>>>> 87362ea3a4277311068483165a2c7b4b47339d5c
             font-size: 20px;
             display: flex;
             justify-content: flex-start;
             align-items: center;
             flex-direction: column
-<<<<<<< HEAD
-=======
         }
 
         .settings  button {
@@ -84,39 +77,6 @@
             border-radius: 5px;
             padding: 10px;
             background: #3fa3f5;
-            overflow: auto;
-        }
-        
-        .picture-setting{
-            width: 100%;
-        }
-        .zoom-setting {
-            width: 100%;
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            
-        }
-        .zoom-setting .change-zoom-btn {
-            margin-left: 20px;
-        }
-
-        img {
-            pointer-events: none;
->>>>>>> 87362ea3a4277311068483165a2c7b4b47339d5c
-        }
-
-        .settings  button {
-            height: 40px;
-            font-size: 20px;
-            line-height: 20px;
-            outline: none;
-            border: none;
-            color: white;
-            border-radius: 5px;
-            padding: 10px;
-            background: #3fa3f5;
-            overflow: auto;
         }
         
         .picture-setting{
@@ -141,7 +101,6 @@
 </head>
 <body>
     <div class="state">
-<<<<<<< HEAD
         <h2>将鼠标移至图片上观察放大效果</h2>
     </div>
     <div class="container">
@@ -151,17 +110,6 @@
         <!-- 放大 -->
         <div class="zoomglass hidden">
             <img src="./images/img.jpg" alt="" >
-=======
-        <p>将鼠标移至图片上观察放大效果</p>
-    </div>
-    <div class="container">
-        <!-- 原图 -->
-        <img id="origin-picture" src="./images/img2.jpg" width="100%" alt="">
-        
-        <!-- 放大 -->
-        <div class="zoomglass hidden">
-            <img src="./images/img2.jpg" alt="" >
->>>>>>> 87362ea3a4277311068483165a2c7b4b47339d5c
         </div>
     </div>
 
@@ -170,43 +118,26 @@
             <button class="change-picture-btn">更换图片</button>
         </div>
         <div class="zoom-setting">
-<<<<<<< HEAD
             <p>透镜缩放（可通过键盘 + 放大，- 缩小）</p>
             <button class="change-zoom-btn enlarge">+</button>
             <button class="change-zoom-btn shrink">-</button>
             <button class="change-zoom-btn reset">重置</button>
-=======
-            <p>放大镜尺寸缩放</p>
-            <button class="change-zoom-btn enlarge">+</button>
-            <button class="change-zoom-btn shrink">-</button>
->>>>>>> 87362ea3a4277311068483165a2c7b4b47339d5c
         </div>
     </div>
     <script src="./js/zoom.js"></script>
     <script>
         let changePicBtn = document.querySelector('.change-picture-btn');
-<<<<<<< HEAD
         let changeZoomBtns = document.querySelectorAll('.change-zoom-btn');
         let zoomWidth = zoom.clientWidth;
         let zoomHeight = zoom.clientHeight;
-=======
-        let changeZoomBtns = document.querySelectorAll('.change-zoom-btn')
-        let originPic = document.querySelector('#origin-picture');
-        let zoomWidth = zoom.offsetWidth;
-        let zoomHeight = zoom.offsetHeight;
->>>>>>> 87362ea3a4277311068483165a2c7b4b47339d5c
 
         let IMAGES = [
             './images/img.jpg',
             './images/img2.jpg',
             './images/img3.jpg',
-<<<<<<< HEAD
             './images/img4.jpg',
             './images/img5.jpg',
             './images/img6.jpg',
-=======
-            './images/img4.jpg'
->>>>>>> 87362ea3a4277311068483165a2c7b4b47339d5c
         ]
         let lastIndex = undefined;
         let count = 0;
@@ -215,17 +146,10 @@
             return parseInt(Math.random() * n);
         }
         // 避免重复取图
-<<<<<<< HEAD
         function setRandomPic() {
             let random = randomNum(IMAGES.length)
             if (random === lastIndex) {
                 setRandomPic(); 
-=======
-        function getRandomPic() {
-            let random = randomNum(IMAGES.length)
-            if (random === lastIndex) {
-                getRandomPic(); 
->>>>>>> 87362ea3a4277311068483165a2c7b4b47339d5c
                 // 如果和上一张图相同，不要执行后面的函数
                 return 
                 lastIndex = undefined;
@@ -238,7 +162,6 @@
             originPic.src = IMAGES[random]; 
         }
         
-<<<<<<< HEAD
         function zoomSizeChange(flag) {
             if (flag == 1) {
                 zoomWidth = zoomHeight += 10;
@@ -271,9 +194,6 @@
                     } else {
                         zoomSizeChange(0);
                     }
-                   
-
-                    
                 })
             }
         )
@@ -290,37 +210,6 @@
                 zoomSizeChange(-1);
             }
         })
-=======
-        changePicBtn.addEventListener('click',getRandomPic
-        )
-
-        Array.prototype.forEach.call(changeZoomBtns, function (i) {
-                i.addEventListener('click',function() {
-                    console.log(this.classList[1])
-                    if (this.classList[1] == 'enlarge') {
-                        zoomWidth += 10;
-                        zoomHeight += 10;
-                    } else {
-                        zoomWidth -= 10;
-                        zoomHeight -= 10;
-                    }
-                    if (zoomWidth <= 100) {
-                        zoomWidth = 100;
-                        zoomHeight = zoomWidth;
-                    }
-                    if (zoomWidth >= 300) {
-                        zoomWidth = 300;
-                        zoomHeight = zoomWidth;
-                    }
-
-                    zoom.style.width = zoomWidth + 'px';
-                    zoom.style.height = zoomHeight + 'px';
-
-                })
-            }
-        )
->>>>>>> 87362ea3a4277311068483165a2c7b4b47339d5c
-
     </script>
     
     
